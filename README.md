@@ -33,7 +33,7 @@ san_diego_breweries = breweries = obdb_api.list_breweries({:postal=>92101})
 ```
 
 ## Structure of Brewery Data
-```json
+```ruby
 {"id"=>"cbf3abb3-0bea-4d9c-ae71-d6e0022c49ce", 
 "name"=>"Golden Road Brewing", 
 "brewery_type"=>"large", 
