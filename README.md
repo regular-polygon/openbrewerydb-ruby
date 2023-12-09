@@ -16,8 +16,9 @@ OpenBreweryDB.list_breweries(state: nil, city: nil, postal: nil, type: nil)
 **Parameters**:  
 **state**: string, optional  
 **city**: string, optional  
-**postal**: integer, optional
+**postal**: integer, optional  
 **type**: string, optional  
+
 view lists of valid state and type options in `/lib/constants.rb`
 ## Example Usage
 ```ruby
