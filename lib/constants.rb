@@ -2,8 +2,6 @@ require 'set'
 
 BASE_URL = 'https://api.openbrewerydb.org/breweries'
 
-ALLOWED_OPTIONS = Set.new(['city', 'state', 'postal', 'type'])
-
 BREWERY_TYPES = Set.new([
   'micro',
   'nano',

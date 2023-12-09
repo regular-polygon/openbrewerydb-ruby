@@ -3,76 +3,51 @@ require 'json'
 require_relative 'constants.rb'
 
 class OpenBreweryDB
-  attr_reader :base_url, :states, :brewery_types, :allowed_options
+  attr_reader :base_url, :states, :brewery_types
 
-  def initialize
-    @base_url = BASE_URL
-    @states = STATES
-    @brewery_types = BREWERY_TYPES
-    @allowed_options = ALLOWED_OPTIONS
-  end
+  @@base_url = BASE_URL
+  @@states = STATES
+  @@brewery_types = BREWERY_TYPES
 
-  def single_brewery(id="")
-    # id refers to the obdb_id assigned to each brewery by OpenBreweryDB
-    id = id.to_s
-    url = URI.parse("#{@base_url}/#{id}")
-    res = Net::HTTP.start(url.host, url.port, :use_ssl => url.scheme == 'https') do |http|
-      request = Net::HTTP::Get.new url
-      response = http.request request # Net::HTTPResponse object
+  def self.list_breweries(state: nil, city: nil, postal: nil, type: nil)
+    if !state.nil? && !@@states.include?(state.downcase)
+      raise ArgumentError, "#{state} is not in the list of valid states."
     end
-    if res.message == "OK"
-      return JSON.parse(res.body)
+    if !type.nil? && !@@brewery_types.include?(type.downcase)
+      raise ArgumentError, "#{type} is not in the list of valid brewery types."
     end
-  end
 
-  def list_breweries(options={})
-    params = make_query_params(options)
-    unless params.nil?
-      response = call_with_params(params)
-      return response
-    else
-      raise ArgumentError
-    end
+    query_params = Hash.new
+    query_params["by_state"] = state
+    query_params["by_city"] = city
+    query_params["by_postal"] = postal
+    query_params["by_type"] = type
+    query_params = self.strip_nil_values(query_params)
+
+    return self.call_with_params(query_params)
   end
 
   private
-  def call_with_params(params)
-    url = URI.parse(@base_url)
-    res = Net::HTTP.start(url.host, url.port, :use_ssl => url.scheme == 'https') do |http|
+  def self.call_with_params(params)
+    url = URI.parse(@@base_url)
+    Net::HTTP.start(url.host, url.port, :use_ssl => url.scheme == 'https') do |http|
       url.query = URI.encode_www_form(params)
       request = Net::HTTP::Get.new url
       response = http.request request # Net::HTTPResponse object
-    end
-    if res.message == "OK"
-      JSON.parse(res.body)
-    else
-      raise ArgumentError
-    end
-
-  end
-
-  def make_query_params(options)
-    transformed_options = Hash.new
-    options.each do |key, value|
-      case key.to_s
-      when "state"
-        unless @states.include?(value.downcase)
-          return nil
-        end
-        transformed_options["by_state"] = value
-      when "type"
-        unless @brewery_types.include?(value.downcase)
-          return nil
-        end
-        transformed_options["by_type"] = value
-      when "city"
-        transformed_options["by_city"] = value
-      when "postal"
-        transformed_options["by_postal"] = value
+      if response.message == "OK"
+        return JSON.parse(response.body)
       else
         return nil
       end
     end
-    return transformed_options
   end
+
+  def self.strip_nil_values(hash)
+    hash.each do |key, value|
+      if value.nil?
+        hash.delete(key)
+      end
+    end
+  end
+
 end
