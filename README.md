@@ -10,43 +10,41 @@ gem build openbrewerydb.gemspec
 gem install ./openbrewerydb-0.0.1.gem
 ```
 ## API 
+```ruby
+OpenBreweryDB,list_breweries(state: nil, city: nil, postal: nil, type: nil)
 ```
-OpenBreweryDB#list_breweries(options_hash)
-options_hash[:state] optional, string
-options_hash[:city] optional, string
-options_hash[:postal] optional, integer
-options_hash[:type] optional, string
-
-OpenBreweryDB#singe_brewery(id)
-id: required, string
-id is the id assigned to the brewery by OpenBreweryDB
-```
-## Usage Sample
+**Parameters**:  
+**state**: string, optional  
+**city**: string, optional  
+**postal**: integer, optional
+**type**: string, optional  
+view lists of valid state and type options in `/lib/constants.rb`
+## Example Usage
 ```ruby
 require 'openbrewerydb'
-obdb_api = OpenBreweryDB.new
 
 # get a list of large breweries based in Los Angeles
-los_angeles_breweries = obdb_api.list_breweries({:city=>"Los Angeles", :type=>"large"})
+los_angeles_breweries = OpenBreweryDB.list_breweries(city:"Los Angeles", type:"large")
 # get a list of breweries by zip code
-san_diego_breweries = breweries = obdb_api.list_breweries({:postal=>92101})
+san_diego_breweries = breweries = OpenBreweryDB.list_breweries(postal:92101)
 ```
 
 ## Structure of Brewery Data
 ```ruby
-{"id"=>"cbf3abb3-0bea-4d9c-ae71-d6e0022c49ce", 
-"name"=>"Golden Road Brewing", 
-"brewery_type"=>"large", 
-"address_1"=>"5430 W San Fernando Rd", 
-"address_2"=>nil, "address_3"=>nil, 
-"city"=>"Los Angeles", 
-"state_province"=>"California", 
-"postal_code"=>"90039-1015", 
-"country"=>"United States", 
-"longitude"=>"-118.2744781", 
-"latitude"=>"34.15049571", 
-"phone"=>"2135426039", 
-"website_url"=>"http://www.goldenroad.la", 
-"state"=>"California", 
-"street"=>"5430 W San Fernando Rd"}
+{"id"=>"786c56e4-c533-4181-8aec-ec976a7bde9f",
+  "name"=>"Ballast Point Brewing Company - Little Italy",
+  "brewery_type"=>"large",
+  "address_1"=>"2215 India St",
+  "address_2"=>nil,
+  "address_3"=>nil,
+  "city"=>"San Diego",
+  "state_province"=>"California",
+  "postal_code"=>"92101-1725",
+  "country"=>"United States",
+  "longitude"=>"-117.169738",
+  "latitude"=>"32.727777",
+  "phone"=>"6192557213",
+  "website_url"=>"http://www.ballastpoint.com",
+  "state"=>"California",
+  "street"=>"2215 India St"}
 ```
