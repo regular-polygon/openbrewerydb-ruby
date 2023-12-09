@@ -6,6 +6,6 @@ Gem::Specification.new do |s|
   s.authors     = ["W Chen"]
   s.email       = ""
   s.files       = ["lib/openbrewerydb.rb", "lib/constants.rb"]
-  s.homepage    = ""
+  s.homepage    = "https://github.com/regular-polygon/openbrewerydb-ruby"
   s.license       = "MIT"
 end
