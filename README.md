@@ -11,7 +11,7 @@ gem install ./openbrewerydb-0.0.1.gem
 ```
 ## API 
 ```ruby
-OpenBreweryDB,list_breweries(state: nil, city: nil, postal: nil, type: nil)
+OpenBreweryDB.list_breweries(state: nil, city: nil, postal: nil, type: nil)
 ```
 **Parameters**:  
 **state**: string, optional  
