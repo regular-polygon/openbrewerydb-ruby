@@ -27,7 +27,7 @@ require 'openbrewerydb'
 # get a list of large breweries based in Los Angeles
 los_angeles_breweries = OpenBreweryDB.list_breweries(city:"Los Angeles", type:"large")
 # get a list of breweries by zip code
-san_diego_breweries = breweries = OpenBreweryDB.list_breweries(postal:92101)
+san_diego_breweries = OpenBreweryDB.list_breweries(postal:92101)
 ```
 
 ## Structure of Brewery Data
