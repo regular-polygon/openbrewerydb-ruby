@@ -10,10 +10,10 @@ class OpenBreweryDB
   BREWERY_TYPES = BREWERY_TYPES
 
   def self.list_breweries(state: nil, city: nil, postal: nil, type: nil)
-    if !state.nil? && !@@states.include?(state.downcase)
+    if !state.nil? && !STATES.include?(state.downcase)
       raise ArgumentError, "#{state} is not in the list of valid states."
     end
-    if !type.nil? && !@@brewery_types.include?(type.downcase)
+    if !type.nil? && !BREWERY_TYPES.include?(type.downcase)
       raise ArgumentError, "#{type} is not in the list of valid brewery types."
     end
     query_params = Hash.new
@@ -27,7 +27,7 @@ class OpenBreweryDB
 
   private
   def self.call_with_params(params)
-    url = URI.parse(@@base_url)
+    url = URI.parse(BASE_URL)
     Net::HTTP.start(url.host, url.port, :use_ssl => url.scheme == 'https') do |http|
       url.query = URI.encode_www_form(params)
       request = Net::HTTP::Get.new url
