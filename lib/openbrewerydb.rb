@@ -22,14 +22,22 @@ class OpenBreweryDB
     query_params["by_postal"] = postal
     query_params["by_type"] = type
     query_params = self.strip_nil_values(query_params)
-    return self.call_with_params(query_params)
+    return self.call_api(params: query_params)
   end
 
   private
-  def self.call_with_params(params)
+  def self.call_api(params: nil, path: nil)
     url = URI.parse(BASE_URL)
-    Net::HTTP.start(url.host, url.port, :use_ssl => url.scheme == 'https') do |http|
+
+    unless params.nil?
       url.query = URI.encode_www_form(params)
+    end
+
+    unless path.nil?
+      url = URI.join(url, path)
+    end
+
+    Net::HTTP.start(url.host, url.port, :use_ssl => url.scheme == 'https') do |http|
       request = Net::HTTP::Get.new url
       response = http.request request # Net::HTTPResponse object
       if response.message == "OK"
