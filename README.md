@@ -13,6 +13,7 @@ gem install ./openbrewerydb-0.0.1.gem
 ```ruby
 OpenBreweryDB.list_breweries(state: nil, city: nil, postal: nil, type: nil)
 ```
+returns a list of hashes containing brewery data
 **Parameters**:  
 **state**: string, optional  
 **city**: string, optional  
@@ -20,6 +21,11 @@ OpenBreweryDB.list_breweries(state: nil, city: nil, postal: nil, type: nil)
 **type**: string, optional  
 
 view lists of valid state and type options in `/lib/constants.rb`
+
+```ruby
+OpenBreweryDB.random_brewery()
+```
+returns a random brewery's information
 ## Example Usage
 ```ruby
 require 'openbrewerydb'
